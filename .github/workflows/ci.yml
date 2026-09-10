@@ -11,35 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Baixa o código do repositório para o runner
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # Configuração do ambiente Go
       - name: Configurar o Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.26' # Ajuste para a versão do seu go.mod, ex: '1.22' ou '1.23'
+          go-version-file: 'go.mod'
 
-      # Restaura/salva cache para acelerar o download das dependências
       - name: Baixar dependências
         run: go mod download
 
-      # Verificar a formatação do código
       - name: Verificar formatação do código
         run: |
           if [ -n "$(gofmt -l .)" ]; then
-            echo "Código fora do padrão de formatação gofmt:"
+            echo "Arquivos fora do padrão de formatação:"
             gofmt -l .
             exit 1
           fi
 
-      # Testes automatizados da aplicação
       - name: Rodar testes unitários
         run: go test -v ./...
 
-      # Linter para checar boas práticas
       - name: Executar golangci-lint
-        uses: golangci/lint-action@v6
+        uses: golangci/golangci-lint-action@v6
         with:
           version: v1.60.0

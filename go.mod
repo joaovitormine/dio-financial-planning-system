@@ -1,6 +1,6 @@
 module github.com/joaovitormine/dio-financial-planning-system
 
-go 1.26.0
+go 1.24
 
 require github.com/prometheus/client_golang v1.24.1
 
